@@ -201,7 +201,7 @@ AHBConfig::AHBConfig(uint32 ahid, AHBConfig* conf)
     TraceBuyer                     = conf->TraceBuyer;
     AHBSeller                      = conf->AHBSeller;
     AHBBuyer                       = conf->AHBBuyer;
-    BuyMethod                      = conf->BuyMethod;
+    UseBuyPrice                      = conf->UseBuyPrice;
     SellMethod                     = conf->SellMethod;
     ConsiderOnlyBotAuctions        = conf->ConsiderOnlyBotAuctions;
     ItemsPerCycle                  = conf->ItemsPerCycle;
@@ -509,7 +509,7 @@ void AHBConfig::Reset()
     AHBSeller                      = false;
     AHBBuyer                       = false;
 
-    BuyMethod                      = false;
+    UseBuyPrice                      = false;
     SellMethod                     = false;
     SellAtMarketPrice              = false;
     ConsiderOnlyBotAuctions        = false;
@@ -2040,7 +2040,7 @@ void AHBConfig::InitializeFromFile()
     AHBSeller                      = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.EnableSeller"           , false);
     AHBBuyer                       = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.EnableBuyer"            , false);
     SellMethod                     = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.UseBuyPriceForSeller"   , false);
-    BuyMethod                      = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.UseBuyPriceForBuyer"    , false);
+    UseBuyPrice                      = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.UseBuyPriceForBuyer"    , false);
     SellAtMarketPrice              = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.UseMarketPriceForSeller", false);
     MarketResetThreshold           = sConfigMgr->GetOption<uint32>("AuctionHouseBot.MarketResetThreshold"   , 25);
     DuplicatesCount                = sConfigMgr->GetOption<uint32>("AuctionHouseBot.DuplicatesCount"        , 0);

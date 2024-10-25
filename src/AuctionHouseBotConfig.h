@@ -182,7 +182,7 @@ public:
 
     bool   AHBSeller;
     bool   AHBBuyer;
-    bool   BuyMethod;
+    bool   UseBuyPrice;
     bool   SellMethod;
     bool   SellAtMarketPrice;
     uint32 MarketResetThreshold;
