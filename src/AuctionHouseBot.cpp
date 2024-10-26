@@ -294,6 +294,32 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
         double basePrice = config->UseBuyPrice ? prototype->BuyPrice : prototype->SellPrice;
         double maximumBid = basePrice * pItem->GetCount() * config->GetBuyerPrice(prototype->Quality);
 
+        if (config->DebugOutBuyer)
+        {
+            LOG_INFO("module", "-------------------------------------------------");
+            LOG_INFO("module", "AHBot [{}]: Info for Auction #{}:", _id, auction->Id);
+            LOG_INFO("module", "AHBot [{}]: AuctionHouse: {}", _id, auction->GetHouseId());
+            LOG_INFO("module", "AHBot [{}]: Owner: {}", _id, auction->owner.ToString());
+            LOG_INFO("module", "AHBot [{}]: Bidder: {}", _id, auction->bidder.ToString());
+            LOG_INFO("module", "AHBot [{}]: Starting Bid: {}", _id, auction->startbid);
+            LOG_INFO("module", "AHBot [{}]: Current Bid: {}", _id, currentPrice);
+            LOG_INFO("module", "AHBot [{}]: Buyout: {}", _id, auction->buyout);
+            LOG_INFO("module", "AHBot [{}]: Deposit: {}", _id, auction->deposit);
+            LOG_INFO("module", "AHBot [{}]: Expire Time: {}", _id, uint32(auction->expire_time));
+            LOG_INFO("module", "AHBot [{}]: Bid Max: {}", _id, maximumBid);
+            LOG_INFO("module", "AHBot [{}]: Item GUID: {}", _id, auction->item_guid.ToString());
+            LOG_INFO("module", "AHBot [{}]: Item Template: {}", _id, auction->item_template);
+            LOG_INFO("module", "AHBot [{}]: Item Info:");
+            LOG_INFO("module", "AHBot [{}]: Item ID: {}", _id, prototype->ItemId);
+            LOG_INFO("module", "AHBot [{}]: Buy Price: {}", _id, prototype->BuyPrice);
+            LOG_INFO("module", "AHBot [{}]: Sell Price: {}", _id, prototype->SellPrice);
+            LOG_INFO("module", "AHBot [{}]: Bonding: {}", _id, prototype->Bonding);
+            LOG_INFO("module", "AHBot [{}]: Quality: {}", _id, prototype->Quality);
+            LOG_INFO("module", "AHBot [{}]: Item Level: {}", _id, prototype->ItemLevel);
+            LOG_INFO("module", "AHBot [{}]: Ammo Type: {}", _id, prototype->AmmoType);
+            LOG_INFO("module", "-------------------------------------------------");
+        }
+
         if (currentPrice > maximumBid)
         {
             if (config->DebugOutBuyer)
@@ -349,30 +375,10 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
         if (config->DebugOutBuyer)
         {
             LOG_INFO("module", "-------------------------------------------------");
-            LOG_INFO("module", "AHBot [{}]: Info for Auction #{}:", _id, auction->Id);
-            LOG_INFO("module", "AHBot [{}]: AuctionHouse: {}", _id, auction->GetHouseId());
-            LOG_INFO("module", "AHBot [{}]: Owner: {}", _id, auction->owner.ToString());
-            LOG_INFO("module", "AHBot [{}]: Bidder: {}", _id, auction->bidder.ToString());
-            LOG_INFO("module", "AHBot [{}]: Starting Bid: {}", _id, auction->startbid);
-            LOG_INFO("module", "AHBot [{}]: Current Bid: {}", _id, currentPrice);
-            LOG_INFO("module", "AHBot [{}]: Buyout: {}", _id, auction->buyout);
-            LOG_INFO("module", "AHBot [{}]: Deposit: {}", _id, auction->deposit);
-            LOG_INFO("module", "AHBot [{}]: Expire Time: {}", _id, uint32(auction->expire_time));
             LOG_INFO("module", "AHBot [{}]: Bid Rate: {}", _id, bidRate);
-            LOG_INFO("module", "AHBot [{}]: Bid Max: {}", _id, maximumBid);
             LOG_INFO("module", "AHBot [{}]: Bid Value: {}", _id, bidValue);
             LOG_INFO("module", "AHBot [{}]: Bid Price: {}", _id, bidPrice);
             LOG_INFO("module", "AHBot [{}]: Minimum Outbid: {}", _id, minimumOutbid);
-            LOG_INFO("module", "AHBot [{}]: Item GUID: {}", _id, auction->item_guid.ToString());
-            LOG_INFO("module", "AHBot [{}]: Item Template: {}", _id, auction->item_template);
-            LOG_INFO("module", "AHBot [{}]: Item Info:");
-            LOG_INFO("module", "AHBot [{}]: Item ID: {}", _id, prototype->ItemId);
-            LOG_INFO("module", "AHBot [{}]: Buy Price: {}", _id, prototype->BuyPrice);
-            LOG_INFO("module", "AHBot [{}]: Sell Price: {}", _id, prototype->SellPrice);
-            LOG_INFO("module", "AHBot [{}]: Bonding: {}", _id, prototype->Bonding);
-            LOG_INFO("module", "AHBot [{}]: Quality: {}", _id, prototype->Quality);
-            LOG_INFO("module", "AHBot [{}]: Item Level: {}", _id, prototype->ItemLevel);
-            LOG_INFO("module", "AHBot [{}]: Ammo Type: {}", _id, prototype->AmmoType);
             LOG_INFO("module", "-------------------------------------------------");
         }
 
