@@ -291,7 +291,7 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
         // Determine maximum bid and skip auctions with too high a currentPrice.
         //
 
-        double basePrice = config->UseBuyPrice ? prototype->BuyPrice : prototype->SellPrice;
+        double basePrice = config->UseBuyPriceForBuyer ? prototype->BuyPrice : prototype->SellPrice;
         double maximumBid = basePrice * pItem->GetCount() * config->GetBuyerPrice(prototype->Quality);
 
         if (config->DebugOutBuyer)
@@ -798,7 +798,7 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
 
         if (buyoutPrice == 0)
         {
-            if (config->SellMethod)
+            if (config->UseBuyPriceForSeller)
             {
                 buyoutPrice = prototype->BuyPrice;
             }
