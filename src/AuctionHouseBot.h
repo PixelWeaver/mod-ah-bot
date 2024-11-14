@@ -53,6 +53,7 @@ private:
 
     void Sell(Player *AHBplayer, AHBConfig *config);
     void Buy (Player *AHBplayer, AHBConfig *config, WorldSession *session);
+    void ProcessMail (Player *AHBplayer, AHBConfig *config, WorldSession *session);
 
     //
     // Utilities

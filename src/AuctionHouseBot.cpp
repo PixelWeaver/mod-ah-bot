@@ -1015,6 +1015,98 @@ void AuctionHouseBot::Sell(Player* AHBplayer, AHBConfig* config)
     }
 }
 
+void CreateOptimalAuctionForPlayer(Player * player, Player * botPlayer, MailItemInfo itemInfo, AHBConfig * config) {
+    // TODO: Add logging!!!!!
+
+    const AuctionHouseEntry * AHEntry = AuctionHouseMgr::GetAuctionHouseEntryFromHouse(AUCTIONHOUSE_NEUTRAL); // TODO: change according to config
+
+    Item* item = botPlayer->GetMItem(itemInfo.item_guid);;
+
+    uint32 etime = 2 * MIN_AUCTION_TIME; // 24 hours // TODO: Think about this in more depth
+    uint32 auctionTime = uint32(etime * sWorld->getRate(RATE_AUCTION_TIME));
+    AuctionHouseObject* auctionHouse = sAuctionMgr->GetAuctionsMapByHouseId(AHEntry->houseId);
+
+    // TODO: HANDLE SENDING A COD MAIL TO PLAYER TO ASK FOR DEPOSIT MONEY
+    // During the test phase before this is done, deposit money won't be taken from the player.
+    //
+    // uint32 deposit = sAuctionMgr->GetAuctionDeposit(auctionHouseEntry, etime, item, finalCount);
+    // if (!_player->HasEnoughMoney(deposit))
+    // {
+    //     SendAuctionCommandResult(0, AUCTION_SELL_ITEM, ERR_AUCTION_NOT_ENOUGHT_MONEY);
+    //     return;
+    // }
+    //
+    // _player->ModifyMoney(-int32(deposit));
+
+    const ItemTemplate* itemTemplate = item->GetTemplate();
+    uint32 bidCeiling = itemTemplate->SellPrice * item->GetCount() * config->GetBuyerPrice(itemTemplate->Quality) - 1;
+
+    AuctionEntry* AH = new AuctionEntry;
+    AH->Id = sObjectMgr->GenerateAuctionID();
+    AH->item_guid = item->GetGUID();
+    AH->item_template = item->GetEntry();
+    AH->itemCount = item->GetCount();
+    AH->owner = player->GetGUID();
+    AH->startbid = bidCeiling;
+    AH->bidder = ObjectGuid::Empty;
+    AH->bid = 0;
+    AH->buyout = bidCeiling;
+    AH->expire_time = GameTime::GetGameTime().count() + auctionTime;
+    AH->deposit = 0;
+    AH->auctionHouseEntry = AHEntry;
+
+    sAuctionMgr->AddAItem(item);
+    auctionHouse->AddAuction(AH);
+
+    CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+    item->DeleteFromInventoryDB(trans); // needed?
+    item->SaveToDB(trans); // needed ?
+    AH->SaveToDB(trans);
+    CharacterDatabase.CommitTransaction(trans);
+
+    WorldSession * session = player->GetSession();
+    if (session != nullptr) {
+        session->SendAuctionCommandResult(AH->Id, AUCTION_SELL_ITEM, ERR_AUCTION_OK);
+    }
+
+    // TODO: Consider if this should advance AchievementCriteria. For now, nope.
+    // player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_CREATE_AUCTION, 1);
+}
+
+void AuctionHouseBot::ProcessMail (Player *player, AHBConfig *config, WorldSession *session) {
+    // TODO check config if list by mail is enabled
+
+    PlayerMails mails = player->GetMails();
+
+    for (Mail * mail : mails) {
+        if (mail->state == MAIL_STATE_DELETED) {
+            continue;
+        }
+
+        if (mail->HasItems() && mail->subject.compare("To be listed on the Auction House") == 0) { // TODO replace with config value for subject line
+            for (MailItemInfo item : mail->items) {
+                if (player->GetMItem(item.item_guid)->GetTemplate()->SellPrice != 0) { // TODO: recheck this 
+                    CreateOptimalAuctionForPlayer(ObjectAccessor::FindPlayerByLowGUID(m->sender), player, item, config);
+                }
+            }
+        } 
+
+        // Delete mail
+        uint32 mailId = mail->messageID;
+        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+        CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_MAIL_BY_ID);
+
+        stmt->SetData(0, mailId);
+        trans->Append(stmt);
+        player->RemoveMail(mailId);
+        
+        CharacterDatabase.CommitTransaction(trans);
+
+        delete mail;
+        sCharacterCache->DecreaseCharacterMailCount(player->GetGUID());
+    }
+}
+
 // =============================================================================
 // Perform an update cycle
 // =============================================================================
