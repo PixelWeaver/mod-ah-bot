@@ -49,35 +49,46 @@ AuctionHouseBot::~AuctionHouseBot()
     // Nothing
 }
 
-uint32 AuctionHouseBot::getElement(std::set<uint32> set, int index, uint32 botId, uint32 maxDup, AuctionHouseObject *auctionHouse)
+uint32 AuctionHouseBot::getRandomItemId(std::set<uint32> itemSet, std::map<uint32, uint32> &templateIDToAuctionCount, AuctionHouseObject *auctionHouse, AHBConfig *config)
 {
-    std::set<uint32>::iterator it = set.begin();
-    std::advance(it, index);
+    if (itemSet.empty())
+        throw std::runtime_error("Item set is empty.");
 
-    if (maxDup > 0)
-    {
-        uint32 noStacks = 0;
+    uint32 itemId;
+    int attempts = 0;
+    const int maxAttempts = 10;
 
-        for (AuctionHouseObject::AuctionEntryMap::const_iterator itr = auctionHouse->GetAuctionsBegin(); itr != auctionHouse->GetAuctionsEnd(); ++itr)
-        {
-            AuctionEntry *Aentry = itr->second;
+    do {
+        // Generate a random index
+        int randomIndex = urand(0, itemSet.size() - 1);
+        auto it = itemSet.begin();
+        std::advance(it, randomIndex);
+        itemId = *it;
 
-            if (Aentry->owner.GetCounter() == botId)
-            {
-                if (*it == Aentry->item_template)
-                {
-                    noStacks++;
-                }
-            }
-        }
+        // Only check auction count if DuplicatesCount is not zero
+        if (config->DuplicatesCount == 0)
+            break;
 
-        if (noStacks >= maxDup)
-        {
-            return 0;
-        }
+        // Check the auction count for the selected item
+        uint32 auctionCount = templateIDToAuctionCount.contains(itemId) ? templateIDToAuctionCount.at(itemId) : 0;
+
+        // If the auction count is within the allowed duplicates, break the loop
+        if (auctionCount <= config->DuplicatesCount)
+            break;
+
+        // Prevent infinite looping by limiting attempts
+        attempts++;
+    } while (attempts < maxAttempts);
+
+    return itemId;
+}
+
+void AuctionHouseBot::registerAuctionItemID(uint32 itemID, std::map<uint32, uint32> &templateIDToAuctionCount) {
+    if (!templateIDToAuctionCount.contains(itemID)) {
+        templateIDToAuctionCount.emplace(itemID, 1);
+    } else {
+        templateIDToAuctionCount[itemID]++;
     }
-
-    return *it;
 }
 
 uint32 AuctionHouseBot::getStackCount(AHBConfig *config, uint32 max)
@@ -584,6 +595,19 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
     uint32 yellowItems = config->GetItemCounts(AHB_YELLOW_I);
 
     //
+    // Duplicates handling if relevant
+    //
+    map<uint32, uint32> templateIDToAuctionCount;
+    if (config->DuplicatesCount) {
+        for (AuctionHouseObject::AuctionEntryMap::const_iterator itr = auctionHouse->GetAuctionsBegin(); itr != auctionHouse->GetAuctionsEnd(); ++itr)
+        {
+            AuctionEntry *entry = itr->second;
+            registerAuctionItemID(entry->item_template, templateIDToAuctionCount);
+        }
+    }
+    
+
+    //
     // Loop variables
     //
 
@@ -613,13 +637,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if ((config->GreyItemsBin.size() > 0) && (greyItems < greyIcount))
             {
                 choice = 0;
-                itemID = getElement(config->GreyItemsBin, urand(0, config->GreyItemsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->GreyItemsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             if (itemID == 0 && (config->GreyTradeGoodsBin.size() > 0) && (greyTGoods < greyTGcount))
             {
                 choice = 7;
-                itemID = getElement(config->GreyTradeGoodsBin, urand(0, config->GreyTradeGoodsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->GreyTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             // Normal
@@ -627,13 +651,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->WhiteItemsBin.size() > 0) && (whiteItems < whiteIcount))
             {
                 choice = 1;
-                itemID = getElement(config->WhiteItemsBin, urand(0, config->WhiteItemsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->WhiteItemsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             if (itemID == 0 && (config->WhiteTradeGoodsBin.size() > 0) && (whiteTGoods < whiteTGcount))
             {
                 choice = 8;
-                itemID = getElement(config->WhiteTradeGoodsBin, urand(0, config->WhiteTradeGoodsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->WhiteTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             // Uncommon
@@ -641,13 +665,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->GreenItemsBin.size() > 0) && (greenItems < greenIcount))
             {
                 choice = 2;
-                itemID = getElement(config->GreenItemsBin, urand(0, config->GreenItemsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->GreenItemsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             if (itemID == 0 && (config->GreenTradeGoodsBin.size() > 0) && (greenTGoods < greenTGcount))
             {
                 choice = 9;
-                itemID = getElement(config->GreenTradeGoodsBin, urand(0, config->GreenTradeGoodsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->GreenTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             // Rare
@@ -655,13 +679,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->BlueItemsBin.size() > 0) && (blueItems < blueIcount))
             {
                 choice = 3;
-                itemID = getElement(config->BlueItemsBin, urand(0, config->BlueItemsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->BlueItemsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             if (itemID == 0 && (config->BlueTradeGoodsBin.size() > 0) && (blueTGoods < blueTGcount))
             {
                 choice = 10;
-                itemID = getElement(config->BlueTradeGoodsBin, urand(0, config->BlueTradeGoodsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->BlueTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             // Epic
@@ -669,13 +693,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->PurpleItemsBin.size() > 0) && (purpleItems < purpleIcount))
             {
                 choice = 4;
-                itemID = getElement(config->PurpleItemsBin, urand(0, config->PurpleItemsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->PurpleItemsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             if (itemID == 0 && (config->PurpleTradeGoodsBin.size() > 0) && (purpleTGoods < purpleTGcount))
             {
                 choice = 11;
-                itemID = getElement(config->PurpleTradeGoodsBin, urand(0, config->PurpleTradeGoodsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->PurpleTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             // Legendary
@@ -683,13 +707,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->OrangeItemsBin.size() > 0) && (orangeItems < orangeIcount))
             {
                 choice = 5;
-                itemID = getElement(config->OrangeItemsBin, urand(0, config->OrangeItemsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->OrangeItemsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             if (itemID == 0 && (config->OrangeTradeGoodsBin.size() > 0) && (orangeTGoods < orangeTGcount))
             {
                 choice = 12;
-                itemID = getElement(config->OrangeTradeGoodsBin, urand(0, config->OrangeTradeGoodsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->OrangeTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             // Artifact
@@ -697,13 +721,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->YellowItemsBin.size() > 0) && (yellowItems < yellowIcount))
             {
                 choice = 6;
-                itemID = getElement(config->YellowItemsBin, urand(0, config->YellowItemsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->YellowItemsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             if (itemID == 0 && (config->YellowTradeGoodsBin.size() > 0) && (yellowTGoods < yellowTGcount))
             {
                 choice = 13;
-                itemID = getElement(config->YellowTradeGoodsBin, urand(0, config->YellowTradeGoodsBin.size() - 1), _id, config->DuplicatesCount, auctionHouse);
+                itemID = getRandomItemId(config->YellowTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
             }
 
             if (itemID == 0)
@@ -870,6 +894,7 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
         sAuctionMgr->AddAItem(item);
         auctionHouse->AddAuction(auctionEntry);
         auctionEntry->SaveToDB(trans);
+        registerAuctionItemID(auctionEntry->item_template, templateIDToAuctionCount);
 
         CharacterDatabase.CommitTransaction(trans);
 
