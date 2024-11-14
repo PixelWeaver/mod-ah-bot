@@ -1016,7 +1016,7 @@ void CreateOptimalAuctionForPlayer(Player * player, Player * botPlayer, MailItem
     AH->bid = 0;
     AH->buyout = bidCeiling;
     AH->expire_time = GameTime::GetGameTime().count() + auctionTime;
-    AH->deposit = 0;
+    AH->deposit = 0; // TODO: revert to proper value here once the matter of the deposit is settled.
     AH->auctionHouseEntry = AHEntry;
 
     sAuctionMgr->AddAItem(item);
@@ -1114,6 +1114,7 @@ void AuctionHouseBot::Update()
             if (((_newrun - _lastrun_a_sec) >= (_allianceConfig->GetBiddingInterval() * MINUTE)) && (_allianceConfig->GetBidsPerInterval() > 0))
             {
                 Buy(&_AHBplayer, _allianceConfig, &_session);
+                ProcessMail(&_AHBplayer, _allianceConfig, &_session); // TODO: consider if a separate timing should be used for this.
                 _lastrun_a_sec = _newrun;
             }
         }
@@ -1129,6 +1130,7 @@ void AuctionHouseBot::Update()
             if (((_newrun - _lastrun_h_sec) >= (_hordeConfig->GetBiddingInterval() * MINUTE)) && (_hordeConfig->GetBidsPerInterval() > 0))
             {
                 Buy(&_AHBplayer, _hordeConfig, &_session);
+                ProcessMail(&_AHBplayer, _hordeConfig, &_session); // TODO: consider if a separate timing should be used for this.
                 _lastrun_h_sec = _newrun;
             }
         }
@@ -1145,6 +1147,7 @@ void AuctionHouseBot::Update()
         if (((_newrun - _lastrun_n_sec) >= (_neutralConfig->GetBiddingInterval() * MINUTE)) && (_neutralConfig->GetBidsPerInterval() > 0))
         {
             Buy(&_AHBplayer, _neutralConfig, &_session);
+            ProcessMail(&_AHBplayer, _neutralConfig, &_session); // TODO: consider if a separate timing should be used for this.
             _lastrun_n_sec = _newrun;
         }
     }
