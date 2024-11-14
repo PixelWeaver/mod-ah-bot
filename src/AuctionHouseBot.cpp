@@ -978,7 +978,7 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
     }
 }
 
-void CreateOptimalAuctionForPlayer(Player * player, Player * botPlayer, MailItemInfo itemInfo, AHBConfig * config) {
+void CreateOptimalAuctionForPlayer(Player * player, Player * botPlayer, MailItemInfo itemInfo, Mail * mail, AHBConfig * config) {
     // TODO: Add logging!!!!!
 
     const AuctionHouseEntry * AHEntry = AuctionHouseMgr::GetAuctionHouseEntryFromHouse(AUCTIONHOUSE_NEUTRAL); // TODO: change according to config
@@ -1002,7 +1002,8 @@ void CreateOptimalAuctionForPlayer(Player * player, Player * botPlayer, MailItem
     // _player->ModifyMoney(-int32(deposit));
 
     const ItemTemplate* itemTemplate = item->GetTemplate();
-    uint32 bidCeiling = itemTemplate->SellPrice * item->GetCount() * config->GetBuyerPrice(itemTemplate->Quality) - 1;
+    double basePrice = config->UseBuyPriceForBuyer ? itemTemplate->BuyPrice : itemTemplate->SellPrice;
+    double bidCeiling = basePrice * item->GetCount() * config->GetBuyerPrice(itemTemplate->Quality) - 1;
 
     AuctionEntry* AH = new AuctionEntry;
     AH->Id = sObjectMgr->GenerateAuctionID();
@@ -1022,9 +1023,14 @@ void CreateOptimalAuctionForPlayer(Player * player, Player * botPlayer, MailItem
     auctionHouse->AddAuction(AH);
 
     CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-    item->DeleteFromInventoryDB(trans); // needed?
-    item->SaveToDB(trans); // needed ?
+
+    ObjectGuid::LowType itemLowGuid = item->GetGUID().GetCounter();
+    mail->RemoveItem(itemLowGuid);
+    mail->removedItems.push_back(itemLowGuid);
+    item->SetState(ITEM_UNCHANGED); // need to set this state, otherwise item cannot be removed later, if neccessary // TODO: examine if this line is truly necessary
+    botPlayer->RemoveMItem(itemLowGuid);
     AH->SaveToDB(trans);
+
     CharacterDatabase.CommitTransaction(trans);
 
     WorldSession * session = player->GetSession();
@@ -1036,8 +1042,9 @@ void CreateOptimalAuctionForPlayer(Player * player, Player * botPlayer, MailItem
     // player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_CREATE_AUCTION, 1);
 }
 
-void AuctionHouseBot::ProcessMail (Player *player, AHBConfig *config, WorldSession *session) {
+void AuctionHouseBot::ProcessMail(Player *player, AHBConfig *config, WorldSession *session) {
     // TODO check config if list by mail is enabled
+    // TODO add logging
 
     PlayerMails mails = player->GetMails();
 
@@ -1048,24 +1055,14 @@ void AuctionHouseBot::ProcessMail (Player *player, AHBConfig *config, WorldSessi
 
         if (mail->HasItems() && mail->subject.compare("To be listed on the Auction House") == 0) { // TODO replace with config value for subject line
             for (MailItemInfo item : mail->items) {
-                if (player->GetMItem(item.item_guid)->GetTemplate()->SellPrice != 0) { // TODO: recheck this 
-                    CreateOptimalAuctionForPlayer(ObjectAccessor::FindPlayerByLowGUID(m->sender), player, item, config);
+                if (player->GetMItem(item.item_guid)->GetTemplate()->SellPrice != 0) { // TODO: reconsider this, is that how we handle zero sellprices? Delete the item?
+                    CreateOptimalAuctionForPlayer(ObjectAccessor::FindPlayerByLowGUID(mail->sender), player, item, mail, config);
                 }
             }
         } 
 
-        // Delete mail
-        uint32 mailId = mail->messageID;
-        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
-        CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_MAIL_BY_ID);
-
-        stmt->SetData(0, mailId);
-        trans->Append(stmt);
-        player->RemoveMail(mailId);
-        
-        CharacterDatabase.CommitTransaction(trans);
-
-        delete mail;
+        player->m_mailsUpdated = true;
+        mail->state = MAIL_STATE_DELETED;
         sCharacterCache->DecreaseCharacterMailCount(player->GetGUID());
     }
 }
