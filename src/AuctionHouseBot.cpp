@@ -49,7 +49,7 @@ AuctionHouseBot::~AuctionHouseBot()
     // Nothing
 }
 
-uint32 AuctionHouseBot::getRandomItemId(std::set<uint32> itemSet, std::map<uint32, uint32> &templateIDToAuctionCount, AuctionHouseObject *auctionHouse, AHBConfig *config)
+uint32 AuctionHouseBot::getRandomItemId(std::set<uint32> itemSet, std::map<uint32, uint32> &templateIDToAuctionCount, AHBConfig *config)
 {
     if (itemSet.empty())
         throw std::runtime_error("Item set is empty.");
@@ -637,13 +637,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if ((config->GreyItemsBin.size() > 0) && (greyItems < greyIcount))
             {
                 choice = 0;
-                itemID = getRandomItemId(config->GreyItemsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->GreyItemsBin, templateIDToAuctionCount, config);
             }
 
             if (itemID == 0 && (config->GreyTradeGoodsBin.size() > 0) && (greyTGoods < greyTGcount))
             {
                 choice = 7;
-                itemID = getRandomItemId(config->GreyTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->GreyTradeGoodsBin, templateIDToAuctionCount, config);
             }
 
             // Normal
@@ -651,13 +651,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->WhiteItemsBin.size() > 0) && (whiteItems < whiteIcount))
             {
                 choice = 1;
-                itemID = getRandomItemId(config->WhiteItemsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->WhiteItemsBin, templateIDToAuctionCount, config);
             }
 
             if (itemID == 0 && (config->WhiteTradeGoodsBin.size() > 0) && (whiteTGoods < whiteTGcount))
             {
                 choice = 8;
-                itemID = getRandomItemId(config->WhiteTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->WhiteTradeGoodsBin, templateIDToAuctionCount, config);
             }
 
             // Uncommon
@@ -665,13 +665,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->GreenItemsBin.size() > 0) && (greenItems < greenIcount))
             {
                 choice = 2;
-                itemID = getRandomItemId(config->GreenItemsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->GreenItemsBin, templateIDToAuctionCount, config);
             }
 
             if (itemID == 0 && (config->GreenTradeGoodsBin.size() > 0) && (greenTGoods < greenTGcount))
             {
                 choice = 9;
-                itemID = getRandomItemId(config->GreenTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->GreenTradeGoodsBin, templateIDToAuctionCount, config);
             }
 
             // Rare
@@ -679,13 +679,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->BlueItemsBin.size() > 0) && (blueItems < blueIcount))
             {
                 choice = 3;
-                itemID = getRandomItemId(config->BlueItemsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->BlueItemsBin, templateIDToAuctionCount, config);
             }
 
             if (itemID == 0 && (config->BlueTradeGoodsBin.size() > 0) && (blueTGoods < blueTGcount))
             {
                 choice = 10;
-                itemID = getRandomItemId(config->BlueTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->BlueTradeGoodsBin, templateIDToAuctionCount, config);
             }
 
             // Epic
@@ -693,13 +693,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->PurpleItemsBin.size() > 0) && (purpleItems < purpleIcount))
             {
                 choice = 4;
-                itemID = getRandomItemId(config->PurpleItemsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->PurpleItemsBin, templateIDToAuctionCount, config);
             }
 
             if (itemID == 0 && (config->PurpleTradeGoodsBin.size() > 0) && (purpleTGoods < purpleTGcount))
             {
                 choice = 11;
-                itemID = getRandomItemId(config->PurpleTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->PurpleTradeGoodsBin, templateIDToAuctionCount, config);
             }
 
             // Legendary
@@ -707,13 +707,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->OrangeItemsBin.size() > 0) && (orangeItems < orangeIcount))
             {
                 choice = 5;
-                itemID = getRandomItemId(config->OrangeItemsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->OrangeItemsBin, templateIDToAuctionCount, config);
             }
 
             if (itemID == 0 && (config->OrangeTradeGoodsBin.size() > 0) && (orangeTGoods < orangeTGcount))
             {
                 choice = 12;
-                itemID = getRandomItemId(config->OrangeTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->OrangeTradeGoodsBin, templateIDToAuctionCount, config);
             }
 
             // Artifact
@@ -721,13 +721,13 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
             if (itemID == 0 && (config->YellowItemsBin.size() > 0) && (yellowItems < yellowIcount))
             {
                 choice = 6;
-                itemID = getRandomItemId(config->YellowItemsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->YellowItemsBin, templateIDToAuctionCount, config);
             }
 
             if (itemID == 0 && (config->YellowTradeGoodsBin.size() > 0) && (yellowTGoods < yellowTGcount))
             {
                 choice = 13;
-                itemID = getRandomItemId(config->YellowTradeGoodsBin, templateIDToAuctionCount, auctionHouse, config);
+                itemID = getRandomItemId(config->YellowTradeGoodsBin, templateIDToAuctionCount, config);
             }
 
             if (itemID == 0)
@@ -978,6 +978,92 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
     }
 }
 
+void CreateOptimalAuctionForPlayer(Player * player, Player * botPlayer, MailItemInfo itemInfo, Mail * mail, AHBConfig * config, WorldSession * session) {
+    // TODO: Add logging!!!!!
+
+    const AuctionHouseEntry * AHEntry = AuctionHouseMgr::GetAuctionHouseEntryFromHouse(AUCTIONHOUSE_NEUTRAL); // TODO: change according to config
+
+    Item* item = botPlayer->GetMItem(itemInfo.item_guid);;
+
+    uint32 etime = 2 * MIN_AUCTION_TIME; // 24 hours // TODO: Think about this in more depth
+    uint32 auctionTime = uint32(etime * sWorld->getRate(RATE_AUCTION_TIME));
+    AuctionHouseObject* auctionHouse = sAuctionMgr->GetAuctionsMapByHouseId(AHEntry->houseId);
+
+    // TODO: HANDLE SENDING A COD MAIL TO PLAYER TO ASK FOR DEPOSIT MONEY
+    // During the test phase before this is done, deposit money won't be taken from the player.
+    //
+    // uint32 deposit = sAuctionMgr->GetAuctionDeposit(auctionHouseEntry, etime, item, finalCount);
+    // if (!_player->HasEnoughMoney(deposit))
+    // {
+    //     SendAuctionCommandResult(0, AUCTION_SELL_ITEM, ERR_AUCTION_NOT_ENOUGHT_MONEY);
+    //     return;
+    // }
+    //
+    // _player->ModifyMoney(-int32(deposit));
+
+    const ItemTemplate* itemTemplate = item->GetTemplate();
+    double basePrice = config->UseBuyPriceForBuyer ? itemTemplate->BuyPrice : itemTemplate->SellPrice;
+    double bidCeiling = basePrice * item->GetCount() * config->GetBuyerPrice(itemTemplate->Quality) - 1;
+
+    AuctionEntry* AH = new AuctionEntry;
+    AH->Id = sObjectMgr->GenerateAuctionID();
+    AH->item_guid = item->GetGUID();
+    AH->item_template = item->GetEntry();
+    AH->itemCount = item->GetCount();
+    AH->owner = player->GetGUID();
+    AH->startbid = bidCeiling;
+    AH->bidder = ObjectGuid::Empty;
+    AH->bid = 0;
+    AH->buyout = bidCeiling;
+    AH->expire_time = GameTime::GetGameTime().count() + auctionTime;
+    AH->deposit = 0; // TODO: revert to proper value here once the matter of the deposit is settled.
+    AH->auctionHouseEntry = AHEntry;
+
+    sAuctionMgr->AddAItem(item);
+    auctionHouse->AddAuction(AH);
+
+    CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+
+    ObjectGuid::LowType itemLowGuid = item->GetGUID().GetCounter();
+    mail->RemoveItem(itemLowGuid);
+    mail->removedItems.push_back(itemLowGuid);
+    item->SetState(ITEM_UNCHANGED); // need to set this state, otherwise item cannot be removed later, if neccessary // TODO: examine if this line is truly necessary
+    botPlayer->RemoveMItem(itemLowGuid);
+    AH->SaveToDB(trans);
+
+    CharacterDatabase.CommitTransaction(trans);
+
+    session->SendAuctionCommandResult(AH->Id, AUCTION_SELL_ITEM, ERR_AUCTION_OK);
+
+    // TODO: Consider if this should advance AchievementCriteria. For now, nope.
+    // player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_CREATE_AUCTION, 1);
+}
+
+void AuctionHouseBot::ProcessMail(Player *player, AHBConfig *config, WorldSession *session) {
+    // TODO check config if list by mail is enabled
+    // TODO add logging
+
+    PlayerMails mails = player->GetMails();
+
+    for (Mail * mail : mails) {
+        if (mail->state == MAIL_STATE_DELETED) {
+            continue;
+        }
+
+        if (mail->HasItems() && mail->subject.compare("To be listed on the Auction House") == 0) { // TODO replace with config value for subject line
+            for (MailItemInfo item : mail->items) {
+                if (player->GetMItem(item.item_guid)->GetTemplate()->SellPrice != 0) { // TODO: reconsider this, is that how we handle zero sellprices? Delete the item?
+                    CreateOptimalAuctionForPlayer(ObjectAccessor::FindPlayerByLowGUID(mail->sender), player, item, mail, config, session);
+                }
+            }
+        } 
+
+        player->m_mailsUpdated = true;
+        mail->state = MAIL_STATE_DELETED;
+        sCharacterCache->DecreaseCharacterMailCount(player->GetGUID());
+    }
+}
+
 // =============================================================================
 // Perform an update cycle
 // =============================================================================
@@ -1025,6 +1111,7 @@ void AuctionHouseBot::Update()
             if (((_newrun - _lastrun_a_sec) >= (_allianceConfig->GetBiddingInterval() * MINUTE)) && (_allianceConfig->GetBidsPerInterval() > 0))
             {
                 Buy(&_AHBplayer, _allianceConfig, &_session);
+                ProcessMail(&_AHBplayer, _allianceConfig, &_session); // TODO: consider if a separate timing should be used for this.
                 _lastrun_a_sec = _newrun;
             }
         }
@@ -1040,6 +1127,7 @@ void AuctionHouseBot::Update()
             if (((_newrun - _lastrun_h_sec) >= (_hordeConfig->GetBiddingInterval() * MINUTE)) && (_hordeConfig->GetBidsPerInterval() > 0))
             {
                 Buy(&_AHBplayer, _hordeConfig, &_session);
+                ProcessMail(&_AHBplayer, _hordeConfig, &_session); // TODO: consider if a separate timing should be used for this.
                 _lastrun_h_sec = _newrun;
             }
         }
@@ -1056,6 +1144,7 @@ void AuctionHouseBot::Update()
         if (((_newrun - _lastrun_n_sec) >= (_neutralConfig->GetBiddingInterval() * MINUTE)) && (_neutralConfig->GetBidsPerInterval() > 0))
         {
             Buy(&_AHBplayer, _neutralConfig, &_session);
+            ProcessMail(&_AHBplayer, _neutralConfig, &_session); // TODO: consider if a separate timing should be used for this.
             _lastrun_n_sec = _newrun;
         }
     }
