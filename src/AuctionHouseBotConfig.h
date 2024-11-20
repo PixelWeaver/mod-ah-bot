@@ -359,6 +359,8 @@ public:
 
     void   UpdateItemStats   (uint32 id, uint32 stackSize, uint64 buyout);
     uint64 GetItemPrice      (uint32 id);
+
+    std::set<uint32>& GetBin(uint32 itemType);
 };
 
 //

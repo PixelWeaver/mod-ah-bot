@@ -3402,3 +3402,32 @@ std::set<uint32> AHBConfig::getCommaSeparatedIntegers(std::string text)
 
     return ret;
 }
+
+std::set<uint32> &AHBConfig::GetBin(uint32 itemType)
+{
+    static const std::map<uint32, std::set<uint32> AHBConfig::*> binMap = {
+        {AHB_GREY_TG, &AHBConfig::GreyTradeGoodsBin},
+        {AHB_WHITE_TG, &AHBConfig::WhiteTradeGoodsBin},
+        {AHB_GREEN_TG, &AHBConfig::GreenTradeGoodsBin},
+        {AHB_BLUE_TG, &AHBConfig::BlueTradeGoodsBin},
+        {AHB_PURPLE_TG, &AHBConfig::PurpleTradeGoodsBin},
+        {AHB_ORANGE_TG, &AHBConfig::OrangeTradeGoodsBin},
+        {AHB_YELLOW_TG, &AHBConfig::YellowTradeGoodsBin},
+        {AHB_GREY_I, &AHBConfig::GreyItemsBin},
+        {AHB_WHITE_I, &AHBConfig::WhiteItemsBin},
+        {AHB_GREEN_I, &AHBConfig::GreenItemsBin},
+        {AHB_BLUE_I, &AHBConfig::BlueItemsBin},
+        {AHB_PURPLE_I, &AHBConfig::PurpleItemsBin},
+        {AHB_ORANGE_I, &AHBConfig::OrangeItemsBin},
+        {AHB_YELLOW_I, &AHBConfig::YellowItemsBin}
+    };
+
+    // Find the bin based on itemType
+    auto it = binMap.find(itemType);
+    if (it == binMap.end())
+    {
+        throw std::invalid_argument("Invalid itemType");
+    }
+
+    return this->*(it->second);
+}
