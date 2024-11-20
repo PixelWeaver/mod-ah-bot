@@ -64,7 +64,7 @@ private:
     uint32 getStackCount(AHBConfig* config, uint32 max);
     uint32 getElapsedTime(uint32 timeClass);
     void registerAuctionItemID(uint32 itemID, std::map<uint32, uint32> &itemIDToAuctionCount);
-    uint32 getRandomItemId(std::set<uint32> itemSet, std::map<uint32, uint32> &itemIDToAuctionCount, AuctionHouseObject *auctionHouse, AHBConfig *config);
+    uint32 getRandomItemId(std::set<uint32> itemSet, std::map<uint32, uint32> &itemIDToAuctionCount, AHBConfig *config);
 
 public:
     AuctionHouseBot(uint32 account, uint32 id);

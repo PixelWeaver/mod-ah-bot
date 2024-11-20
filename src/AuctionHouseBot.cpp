@@ -51,7 +51,7 @@ AuctionHouseBot::~AuctionHouseBot()
     // Nothing
 }
 
-uint32 AuctionHouseBot::getRandomItemId(std::set<uint32> itemSet, std::map<uint32, uint32> &templateIDToAuctionCount, AuctionHouseObject *auctionHouse, AHBConfig *config)
+uint32 AuctionHouseBot::getRandomItemId(std::set<uint32> itemSet, std::map<uint32, uint32> &templateIDToAuctionCount, AHBConfig *config)
 {
     if (itemSet.empty())
         throw std::runtime_error("Item set is empty.");
@@ -597,7 +597,7 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
     std::map<uint32, ItemCounts> itemCountsMap;
     std::vector<uint32> missingCounts(itemTypes.size());
 
-    for (int i = 0; i < itemTypes.size(); i++) {
+    for (size_t i = 0; i < itemTypes.size(); i++) {
         uint32 type = itemTypes[i];
         ItemCounts counts = {
             config->GetItemCounts(type), // CurrentCount
@@ -630,9 +630,6 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
 
     for (uint32 i = 0; i < newAuctionsCount; i++)
     {
-        uint32 choice = 0;
-        uint32 loopbreaker = 0;
-
         //
         // Make sure at least one item can be added.
         //
@@ -652,7 +649,7 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
 
         uint32 selectedType = selectRandomOutcome(itemTypes, missingCounts);
         LootIdSet selectedBin = config->GetBin(selectedType);
-        uint32 itemID = getRandomItemId(selectedBin, templateIDToAuctionCount, auctionHouse, config);
+        uint32 itemID = getRandomItemId(selectedBin, templateIDToAuctionCount, config);
 
         if (itemID == 0)
         {
