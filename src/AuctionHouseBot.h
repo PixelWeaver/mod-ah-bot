@@ -60,7 +60,7 @@ private:
 
     inline uint32 minValue(uint32 a, uint32 b) { return a <= b ? a : b; };
 
-    uint32 getNofAuctions(AHBConfig* config, AuctionHouseObject* auctionHouse, ObjectGuid guid);
+    uint32 getAuctionCount(AHBConfig* config, AuctionHouseObject* auctionHouse, ObjectGuid guid);
     uint32 getStackCount(AHBConfig* config, uint32 max);
     uint32 getElapsedTime(uint32 timeClass);
     void registerAuctionItemID(uint32 itemID, std::map<uint32, uint32> &itemIDToAuctionCount);
