@@ -132,10 +132,10 @@ uint32 AuctionHouseBot::getStackCount(AHBConfig *config, uint32 max)
     }
 
     //
-    // Totally random
+    // More likely to be a whole stack.
     //
-
-    return urand(1, max);
+    bool wholeStack = frand(0, 1) < 0.35; // TODO: Get this from config
+    return wholeStack ? max : urand(1, max);
 }
 
 uint32 AuctionHouseBot::getElapsedTime(uint32 timeClass)
@@ -600,12 +600,11 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
     for (size_t i = 0; i < itemTypes.size(); i++) {
         uint32 type = itemTypes[i];
         ItemCounts counts = {
-            config->GetItemCounts(type), // CurrentCount
-            config->GetMaximum(type)    // MaxCount
+            config->GetItemCounts(type),
+            config->GetMaximum(type)
         };
 
         itemCountsMap[type] = counts;
-
         missingCounts[i] = config->GetBin(type).size() == 0 ? 0 : counts.MaxCount - counts.CurrentCount;
     }
 
