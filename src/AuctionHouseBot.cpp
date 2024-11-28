@@ -608,6 +608,18 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
         missingCounts[i] = config->GetBin(type).size() == 0 ? 0 : counts.MaxCount - counts.CurrentCount;
     }
 
+    if (config->TraceSeller)
+    {
+        std::ostringstream oss;
+        for (size_t i = 0; i < missingCounts.size(); ++i) {
+            oss << missingCounts[i];
+            if (i != missingCounts.size() - 1) {
+                oss << ",";
+            }
+        }
+        LOG_INFO("module", "AHBot [{}]: Will now randomly create auction items for the following respective missing counts for categories: {}", _id, oss.str());
+    }
+
     //
     // Duplicates handling if relevant
     //
