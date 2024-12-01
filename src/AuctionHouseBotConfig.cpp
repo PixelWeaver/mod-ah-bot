@@ -155,7 +155,7 @@ AHBConfig::AHBConfig(uint32 ahid, AHBConfig* conf)
     buyerPriceYellow               = conf->buyerPriceYellow;
     buyerBiddingInterval           = conf->buyerBiddingInterval;
     buyerBidsPerInterval           = conf->buyerBidsPerInterval;
-    stackSizeCap                   = conf->stackSizeCap;
+    StackSizeCap                   = conf->StackSizeCap;
 
     // This part is acquired thorugh initialization
     //
@@ -459,7 +459,7 @@ void AHBConfig::Reset()
     buyerBiddingInterval           = 0;
     buyerBidsPerInterval           = 0;
 
-    stackSizeCap                   = 0;
+    StackSizeCap                   = 0;
 
     greytgp                        = 0;
     whitetgp                       = 0;
@@ -2048,7 +2048,7 @@ void AHBConfig::InitializeFromFile()
     ElapsingTimeClass              = sConfigMgr->GetOption<uint32>("AuctionHouseBot.DuplicatesCount"        , 1);
     ConsiderOnlyBotAuctions        = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.ConsiderOnlyBotAuctions", false);
     ItemsPerCycle                  = sConfigMgr->GetOption<uint32>("AuctionHouseBot.ItemsPerCycle"          , 200);
-    stackSizeCap                   = sConfigMgr->GetOption<uint32>("AuctionHouseBot.StackSizeCap"          , 0);
+    StackSizeCap                   = sConfigMgr->GetOption<uint32>("AuctionHouseBot.StackSizeCap"          , 0);
 
     //
     // Flags: item types

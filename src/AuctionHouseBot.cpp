@@ -135,7 +135,8 @@ uint32 AuctionHouseBot::getStackCount(AHBConfig *config, uint32 max)
     // More likely to be a whole stack.
     //
     bool wholeStack = frand(0, 1) > 0.35; // TODO: Get this from config
-    return wholeStack ? max : urand(1, max);
+    uint32 cappedMax = config->StackSizeCap == 0 ? max : min(max, config->StackSizeCap);
+    return wholeStack ? cappedMax : urand(1, cappedMax);
 }
 
 uint32 AuctionHouseBot::getElapsedTime(uint32 timeClass)
