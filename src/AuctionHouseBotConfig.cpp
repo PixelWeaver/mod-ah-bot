@@ -155,6 +155,7 @@ AHBConfig::AHBConfig(uint32 ahid, AHBConfig* conf)
     buyerPriceYellow               = conf->buyerPriceYellow;
     buyerBiddingInterval           = conf->buyerBiddingInterval;
     buyerBidsPerInterval           = conf->buyerBidsPerInterval;
+    stackSizeCap                   = conf->stackSizeCap;
 
     // This part is acquired thorugh initialization
     //
@@ -457,6 +458,8 @@ void AHBConfig::Reset()
 
     buyerBiddingInterval           = 0;
     buyerBidsPerInterval           = 0;
+
+    stackSizeCap                   = 0;
 
     greytgp                        = 0;
     whitetgp                       = 0;

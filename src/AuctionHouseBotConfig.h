@@ -103,6 +103,8 @@ private:
     uint32 buyerBiddingInterval;
     uint32 buyerBidsPerInterval;
 
+    uint32 stackSizeCap;
+
     //
     // Amount of items to be sold in absolute values
     //
