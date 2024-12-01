@@ -64,8 +64,8 @@ CREATE TABLE `mod_auctionhousebot` (
   `buyerpricepurple` int(11) DEFAULT '15' COMMENT 'Multiplier to vendorprice when buying purple items from auctionhouse',
   `buyerpriceorange` int(11) DEFAULT '20' COMMENT 'Multiplier to vendorprice when buying orange items from auctionhouse',
   `buyerpriceyellow` int(11) DEFAULT '22' COMMENT 'Multiplier to vendorprice when buying yellow items from auctionhouse',
-  `buyerbiddinginterval` int(11) DEFAULT '1' COMMENT 'Interval how frequently AHB bids on each AH. Time in minutes',
-  `buyerbidsperinterval` int(11) DEFAULT '1' COMMENT 'number of bids to put in per bidding interval',
+  `buyerbiddinginterval` int(11) DEFAULT '30' COMMENT 'Interval how frequently AHB bids on each AH. Time in minutes',
+  `buyerbidsperinterval` int(11) DEFAULT '3' COMMENT 'number of bids to put in per bidding interval',
   PRIMARY KEY (`auctionhouse`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
