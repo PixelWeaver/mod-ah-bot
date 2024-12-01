@@ -2048,6 +2048,7 @@ void AHBConfig::InitializeFromFile()
     ElapsingTimeClass              = sConfigMgr->GetOption<uint32>("AuctionHouseBot.DuplicatesCount"        , 1);
     ConsiderOnlyBotAuctions        = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.ConsiderOnlyBotAuctions", false);
     ItemsPerCycle                  = sConfigMgr->GetOption<uint32>("AuctionHouseBot.ItemsPerCycle"          , 200);
+    stackSizeCap                   = sConfigMgr->GetOption<uint32>("AuctionHouseBot.StackSizeCap"          , 0);
 
     //
     // Flags: item types
