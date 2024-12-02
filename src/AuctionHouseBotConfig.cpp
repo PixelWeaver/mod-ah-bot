@@ -155,7 +155,6 @@ AHBConfig::AHBConfig(uint32 ahid, AHBConfig* conf)
     buyerPriceYellow               = conf->buyerPriceYellow;
     buyerBiddingInterval           = conf->buyerBiddingInterval;
     buyerBidsPerInterval           = conf->buyerBidsPerInterval;
-    StackSizeCap                   = conf->StackSizeCap;
 
     // This part is acquired thorugh initialization
     //
@@ -255,7 +254,8 @@ AHBConfig::AHBConfig(uint32 ahid, AHBConfig* conf)
     DisableItemsAboveReqSkillRank  = conf->DisableItemsAboveReqSkillRank;
     DisableTGsBelowReqSkillRank    = conf->DisableTGsBelowReqSkillRank;
     DisableTGsAboveReqSkillRank    = conf->DisableTGsAboveReqSkillRank;
-
+    StackSizeCap                   = conf->StackSizeCap;
+    
     //
     // Copy the sets
     //
