@@ -305,49 +305,6 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
         // Determine maximum bid and skip auctions with too high a currentPrice.
         //
 
-        double basePrice = config->UseBuyPrice ? prototype->BuyPrice : prototype->SellPrice;
-        double maximumBid = basePrice * pItem->GetCount() * config->GetBuyerPrice(prototype->Quality);
-
-        if (currentPrice > maximumBid)
-        {
-            if (config->DebugOutBuyer)
-            {
-                LOG_INFO("module", "AHBot [{}]: Current price too high, skipped.", _id);
-            }
-
-            continue;
-        }
-
-        //
-        // Specific item class maximum bid adjustments.
-        //
-
-        switch (prototype->Class)
-        {
-            // TODO: Add balancing rules for items such as glyphs here.
-        default:
-            break;
-        }
-
-        //
-        // Make sure to skip the auction if maximum bid is 0.
-        //
-
-        if (maximumBid == 0)
-        {
-            continue;
-        }
-
-        //
-        // Determine current price.
-        //
-
-        uint32 currentPrice = auction->bid ? auction->bid : auction->startbid;
-
-        //
-        // Determine maximum bid and skip auctions with too high a currentPrice.
-        //
-
         double basePrice = config->UseBuyPriceForBuyer ? prototype->BuyPrice : prototype->SellPrice;
         double maximumBid = basePrice * pItem->GetCount() * config->GetBuyerPrice(prototype->Quality);
 
