@@ -117,6 +117,7 @@ AuctionHouseBot.ConsiderOnlyBotAuctions = 0
 AuctionHouseBot.DuplicatesCount = 0
 AuctionHouseBot.DivisibleStacks = 0
 AuctionHouseBot.ElapsingTimeClass = 1
+AuctionHouseBot.StackSizeCap = 0
 
 ###############################################################################
 # AUCTION HOUSE BOT FILTERS PART 1
