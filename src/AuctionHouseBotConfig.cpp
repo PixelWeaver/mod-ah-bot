@@ -2020,6 +2020,7 @@ void AHBConfig::Initialize(std::set<uint32> botsIds)
     InitializeFromFile();
     InitializeFromSql(botsIds);
     InitializeBins();
+    LoadAuctionPrices();
 }
 
 void AHBConfig::InitializeFromFile()
