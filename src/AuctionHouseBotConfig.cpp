@@ -3260,73 +3260,7 @@ void AHBConfig::InitializeBins()
         //
         // Now that the items passed all the tests, organize it by quality
         //
-
-        if (itr->second.Class == ITEM_CLASS_TRADE_GOODS)
-        {
-            switch (itr->second.Quality)
-            {
-            case AHB_GREY:
-                GreyTradeGoodsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_WHITE:
-                WhiteTradeGoodsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_GREEN:
-                GreenTradeGoodsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_BLUE:
-                BlueTradeGoodsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_PURPLE:
-                PurpleTradeGoodsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_ORANGE:
-                OrangeTradeGoodsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_YELLOW:
-                YellowTradeGoodsBin.insert(itr->second.ItemId);
-                break;
-            }
-        }
-        else
-        {
-            switch (itr->second.Quality)
-            {
-            case AHB_GREY:
-                GreyItemsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_WHITE:
-                WhiteItemsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_GREEN:
-                GreenItemsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_BLUE:
-                BlueItemsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_PURPLE:
-                PurpleItemsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_ORANGE:
-                OrangeItemsBin.insert(itr->second.ItemId);
-                break;
-
-            case AHB_YELLOW:
-                YellowItemsBin.insert(itr->second.ItemId);
-                break;
-            }
-        }
+        insertItemInRightBin(itr->second);
     }
 
     // 
@@ -3384,6 +3318,28 @@ void AHBConfig::InitializeBins()
     LOG_INFO("module", "AHBot: loaded {} yellow items"      , uint32(YellowItemsBin.size()));
 }
 
+void AHBConfig::LoadAuctionPrices() {
+    QueryResult result = WorldDatabase.Query("SELECT entry, price FROM mod_auctionhousebot_auction_prices");
+
+    if (result)
+    {
+        do
+        {
+            Field* fields = result->Fetch();
+            uint32 itemEntry = fields[0].Get<uint32>();
+            uint32 itemPrice = fields[1].Get<uint32>();
+
+            auto itemTemplateItr = sObjectMgr->GetItemTemplateStore()->find(itemEntry);
+            if (itemTemplateItr == sObjectMgr->GetItemTemplateStore()->end()) {
+                continue;
+            }
+
+            insertItemInRightBin(itemTemplateItr->second);
+            ItemPrices[itemEntry] = itemPrice;
+        } while (result->NextRow());
+    }
+}
+
 std::set<uint32> AHBConfig::getCommaSeparatedIntegers(std::string text)
 {
     std::string       value;
@@ -3402,6 +3358,75 @@ std::set<uint32> AHBConfig::getCommaSeparatedIntegers(std::string text)
     }
 
     return ret;
+}
+
+void AHBConfig::insertItemInRightBin(ItemTemplate item) {
+    if (item.Class == ITEM_CLASS_TRADE_GOODS)
+        {
+            switch (item.Quality)
+            {
+            case AHB_GREY:
+                GreyTradeGoodsBin.insert(item.ItemId);
+                break;
+
+            case AHB_WHITE:
+                WhiteTradeGoodsBin.insert(item.ItemId);
+                break;
+
+            case AHB_GREEN:
+                GreenTradeGoodsBin.insert(item.ItemId);
+                break;
+
+            case AHB_BLUE:
+                BlueTradeGoodsBin.insert(item.ItemId);
+                break;
+
+            case AHB_PURPLE:
+                PurpleTradeGoodsBin.insert(item.ItemId);
+                break;
+
+            case AHB_ORANGE:
+                OrangeTradeGoodsBin.insert(item.ItemId);
+                break;
+
+            case AHB_YELLOW:
+                YellowTradeGoodsBin.insert(item.ItemId);
+                break;
+            }
+        }
+        else
+        {
+            switch (item.Quality)
+            {
+            case AHB_GREY:
+                GreyItemsBin.insert(item.ItemId);
+                break;
+
+            case AHB_WHITE:
+                WhiteItemsBin.insert(item.ItemId);
+                break;
+
+            case AHB_GREEN:
+                GreenItemsBin.insert(item.ItemId);
+                break;
+
+            case AHB_BLUE:
+                BlueItemsBin.insert(item.ItemId);
+                break;
+
+            case AHB_PURPLE:
+                PurpleItemsBin.insert(item.ItemId);
+                break;
+
+            case AHB_ORANGE:
+                OrangeItemsBin.insert(item.ItemId);
+                break;
+
+            case AHB_YELLOW:
+                YellowItemsBin.insert(item.ItemId);
+                break;
+            }
+        }
 }
 
 std::set<uint32> &AHBConfig::GetBin(uint32 itemType)

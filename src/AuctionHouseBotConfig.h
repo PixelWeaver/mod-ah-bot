@@ -155,6 +155,7 @@ private:
     void   InitializeFromSql(std::set<uint32> botsIds);
 
     std::set<uint32> getCommaSeparatedIntegers(std::string text);
+    void insertItemInRightBin(ItemTemplate item);
 
 public:
     //
@@ -289,6 +290,11 @@ public:
     std::set<uint32> YellowItemsBin;
 
     //
+    //  Item prices
+    //
+    std::map<uint32, uint32> ItemPrices;
+
+    //
     // Constructors/destructors
     //
 
@@ -298,11 +304,12 @@ public:
     ~AHBConfig();
 
     //
-    // Ruotines
+    // Routines
     //
 
     void   Initialize(std::set<uint32> botsIds);
     void   InitializeBins();
+    void   LoadAuctionPrices();
     void   Reset();
 
     uint32 GetAHID();
