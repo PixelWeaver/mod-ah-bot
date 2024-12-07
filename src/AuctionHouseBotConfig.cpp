@@ -155,7 +155,6 @@ AHBConfig::AHBConfig(uint32 ahid, AHBConfig* conf)
     buyerPriceYellow               = conf->buyerPriceYellow;
     buyerBiddingInterval           = conf->buyerBiddingInterval;
     buyerBidsPerInterval           = conf->buyerBidsPerInterval;
-    stackSizeCap                   = conf->stackSizeCap;
 
     // This part is acquired thorugh initialization
     //
@@ -201,8 +200,8 @@ AHBConfig::AHBConfig(uint32 ahid, AHBConfig* conf)
     TraceBuyer                     = conf->TraceBuyer;
     AHBSeller                      = conf->AHBSeller;
     AHBBuyer                       = conf->AHBBuyer;
-    UseBuyPriceForBuyer                      = conf->UseBuyPriceForBuyer;
-    UseBuyPriceForSeller                     = conf->UseBuyPriceForSeller;
+    UseBuyPriceForBuyer            = conf->UseBuyPriceForBuyer;
+    UseBuyPriceForSeller           = conf->UseBuyPriceForSeller;
     ConsiderOnlyBotAuctions        = conf->ConsiderOnlyBotAuctions;
     ItemsPerCycle                  = conf->ItemsPerCycle;
     Vendor_Items                   = conf->Vendor_Items;
@@ -255,7 +254,8 @@ AHBConfig::AHBConfig(uint32 ahid, AHBConfig* conf)
     DisableItemsAboveReqSkillRank  = conf->DisableItemsAboveReqSkillRank;
     DisableTGsBelowReqSkillRank    = conf->DisableTGsBelowReqSkillRank;
     DisableTGsAboveReqSkillRank    = conf->DisableTGsAboveReqSkillRank;
-
+    StackSizeCap                   = conf->StackSizeCap;
+    
     //
     // Copy the sets
     //
@@ -459,7 +459,7 @@ void AHBConfig::Reset()
     buyerBiddingInterval           = 0;
     buyerBidsPerInterval           = 0;
 
-    stackSizeCap                   = 0;
+    StackSizeCap                   = 0;
 
     greytgp                        = 0;
     whitetgp                       = 0;
@@ -509,8 +509,8 @@ void AHBConfig::Reset()
     AHBSeller                      = false;
     AHBBuyer                       = false;
 
-    UseBuyPriceForBuyer                      = false;
-    UseBuyPriceForSeller                     = false;
+    UseBuyPriceForBuyer            = false;
+    UseBuyPriceForSeller           = false;
     SellAtMarketPrice              = false;
     ConsiderOnlyBotAuctions        = false;
     ItemsPerCycle                  = 200;
@@ -2039,8 +2039,8 @@ void AHBConfig::InitializeFromFile()
 
     AHBSeller                      = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.EnableSeller"           , false);
     AHBBuyer                       = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.EnableBuyer"            , false);
-    UseBuyPriceForSeller                     = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.UseBuyPriceForSeller"   , false);
-    UseBuyPriceForBuyer                      = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.UseBuyPriceForBuyer"    , false);
+    UseBuyPriceForSeller           = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.UseBuyPriceForSeller"   , false);
+    UseBuyPriceForBuyer            = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.UseBuyPriceForBuyer"    , false);
     SellAtMarketPrice              = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.UseMarketPriceForSeller", false);
     MarketResetThreshold           = sConfigMgr->GetOption<uint32>("AuctionHouseBot.MarketResetThreshold"   , 25);
     DuplicatesCount                = sConfigMgr->GetOption<uint32>("AuctionHouseBot.DuplicatesCount"        , 0);
@@ -2048,6 +2048,7 @@ void AHBConfig::InitializeFromFile()
     ElapsingTimeClass              = sConfigMgr->GetOption<uint32>("AuctionHouseBot.DuplicatesCount"        , 1);
     ConsiderOnlyBotAuctions        = sConfigMgr->GetOption<bool>  ("AuctionHouseBot.ConsiderOnlyBotAuctions", false);
     ItemsPerCycle                  = sConfigMgr->GetOption<uint32>("AuctionHouseBot.ItemsPerCycle"          , 200);
+    StackSizeCap                   = sConfigMgr->GetOption<uint32>("AuctionHouseBot.StackSizeCap"          , 0);
 
     //
     // Flags: item types

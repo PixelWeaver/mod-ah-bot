@@ -135,7 +135,8 @@ uint32 AuctionHouseBot::getStackCount(AHBConfig *config, uint32 max)
     // More likely to be a whole stack.
     //
     bool wholeStack = frand(0, 1) > 0.35; // TODO: Get this from config
-    return wholeStack ? max : urand(1, max);
+    uint32 cappedMax = config->StackSizeCap == 0 ? max : min(max, config->StackSizeCap);
+    return wholeStack ? cappedMax : urand(1, cappedMax);
 }
 
 uint32 AuctionHouseBot::getElapsedTime(uint32 timeClass)
@@ -307,7 +308,7 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
         double basePrice = config->UseBuyPriceForBuyer ? prototype->BuyPrice : prototype->SellPrice;
         double maximumBid = basePrice * pItem->GetCount() * config->GetBuyerPrice(prototype->Quality);
 
-        if (config->DebugOutBuyer)
+        if (config->DebugOutBuyer)  
         {
             LOG_INFO("module", "-------------------------------------------------");
             LOG_INFO("module", "AHBot [{}]: Info for Auction #{}:", _id, auction->Id);
@@ -606,19 +607,6 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
 
         itemCountsMap[type] = counts;
         missingCounts[i] = config->GetBin(type).size() == 0 ? 0 : counts.MaxCount - counts.CurrentCount;
-
-    }
-    
-    if (config->DebugOutSeller)
-    {
-        std::ostringstream oss;
-        for (size_t i = 0; i < missingCounts.size(); ++i) {
-            oss << missingCounts[i];
-            if (i != missingCounts.size() - 1) {
-                oss << ",";
-            }
-        }
-        LOG_DEBUG("module", "AHBot [{}]: Will now randomly create auction items for the following respective missing counts for categories: {}", _id, oss.str());
     }
 
     if (config->TraceSeller)
