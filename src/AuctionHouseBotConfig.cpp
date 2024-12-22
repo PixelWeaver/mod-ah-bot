@@ -2462,15 +2462,15 @@ void AHBConfig::InitializeFromSql(std::set<uint32> botsIds)
 
     DisableItemStore.clear();
 
-    QueryResult result = WorldDatabase.Query("SELECT item FROM mod_auctionhousebot_disabled_items");
+    QueryResult disabledItemsResult = WorldDatabase.Query("SELECT item FROM mod_auctionhousebot_disabled_items");
 
-    if (result)
+    if (disabledItemsResult)
     {
         do
         {
-            Field* fields = result->Fetch();
+            Field* fields = disabledItemsResult->Fetch();
             DisableItemStore.insert(fields[0].Get<uint32>());
-        } while (result->NextRow());
+        } while (disabledItemsResult->NextRow());
     }
 
     if (DebugOutConfig)
