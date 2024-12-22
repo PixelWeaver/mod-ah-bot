@@ -2140,28 +2140,28 @@ void AHBConfig::InitializeFromSql(std::set<uint32> botsIds)
     // Load min and max items
     //
 
-    SetMinItems(WorldDatabase.Query("SELECT minitems FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxItems(WorldDatabase.Query("SELECT maxitems FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
+    SetMinItems(WorldDatabase.Query("SELECT minitems FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxItems(WorldDatabase.Query("SELECT maxitems FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
 
     //
     // Load percentages
     //
 
-    uint32 greytg   = WorldDatabase.Query("SELECT percentgreytradegoods   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 whitetg  = WorldDatabase.Query("SELECT percentwhitetradegoods  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 greentg  = WorldDatabase.Query("SELECT percentgreentradegoods  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 bluetg   = WorldDatabase.Query("SELECT percentbluetradegoods   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 purpletg = WorldDatabase.Query("SELECT percentpurpletradegoods FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 orangetg = WorldDatabase.Query("SELECT percentorangetradegoods FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 yellowtg = WorldDatabase.Query("SELECT percentyellowtradegoods FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
+    uint32 greytg   = WorldDatabase.Query("SELECT percentgreytradegoods   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 whitetg  = WorldDatabase.Query("SELECT percentwhitetradegoods  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 greentg  = WorldDatabase.Query("SELECT percentgreentradegoods  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 bluetg   = WorldDatabase.Query("SELECT percentbluetradegoods   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 purpletg = WorldDatabase.Query("SELECT percentpurpletradegoods FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 orangetg = WorldDatabase.Query("SELECT percentorangetradegoods FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 yellowtg = WorldDatabase.Query("SELECT percentyellowtradegoods FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
 
-    uint32 greyi    = WorldDatabase.Query("SELECT percentgreyitems        FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 whitei   = WorldDatabase.Query("SELECT percentwhiteitems       FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 greeni   = WorldDatabase.Query("SELECT percentgreenitems       FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 bluei    = WorldDatabase.Query("SELECT percentblueitems        FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 purplei  = WorldDatabase.Query("SELECT percentpurpleitems      FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 orangei  = WorldDatabase.Query("SELECT percentorangeitems      FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
-    uint32 yellowi  = WorldDatabase.Query("SELECT percentyellowitems      FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>();
+    uint32 greyi    = WorldDatabase.Query("SELECT percentgreyitems        FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 whitei   = WorldDatabase.Query("SELECT percentwhiteitems       FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 greeni   = WorldDatabase.Query("SELECT percentgreenitems       FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 bluei    = WorldDatabase.Query("SELECT percentblueitems        FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 purplei  = WorldDatabase.Query("SELECT percentpurpleitems      FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 orangei  = WorldDatabase.Query("SELECT percentorangeitems      FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
+    uint32 yellowi  = WorldDatabase.Query("SELECT percentyellowitems      FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>();
 
     SetPercentages(greytg, whitetg, greentg, bluetg, purpletg, orangetg, yellowtg, greyi, whitei, greeni, bluei, purplei, orangei, yellowi);
 
@@ -2169,51 +2169,51 @@ void AHBConfig::InitializeFromSql(std::set<uint32> botsIds)
     // Load min and max prices
     // 
 
-    SetMinPrice(AHB_GREY  , WorldDatabase.Query("SELECT minpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxPrice(AHB_GREY  , WorldDatabase.Query("SELECT maxpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinPrice(AHB_WHITE , WorldDatabase.Query("SELECT minpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxPrice(AHB_WHITE , WorldDatabase.Query("SELECT maxpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinPrice(AHB_GREEN , WorldDatabase.Query("SELECT minpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxPrice(AHB_GREEN , WorldDatabase.Query("SELECT maxpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinPrice(AHB_BLUE  , WorldDatabase.Query("SELECT minpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxPrice(AHB_BLUE  , WorldDatabase.Query("SELECT maxpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinPrice(AHB_PURPLE, WorldDatabase.Query("SELECT minpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxPrice(AHB_PURPLE, WorldDatabase.Query("SELECT maxpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinPrice(AHB_ORANGE, WorldDatabase.Query("SELECT minpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxPrice(AHB_ORANGE, WorldDatabase.Query("SELECT maxpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinPrice(AHB_YELLOW, WorldDatabase.Query("SELECT minpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxPrice(AHB_YELLOW, WorldDatabase.Query("SELECT maxpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
+    SetMinPrice(AHB_GREY  , WorldDatabase.Query("SELECT minpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxPrice(AHB_GREY  , WorldDatabase.Query("SELECT maxpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinPrice(AHB_WHITE , WorldDatabase.Query("SELECT minpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxPrice(AHB_WHITE , WorldDatabase.Query("SELECT maxpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinPrice(AHB_GREEN , WorldDatabase.Query("SELECT minpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxPrice(AHB_GREEN , WorldDatabase.Query("SELECT maxpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinPrice(AHB_BLUE  , WorldDatabase.Query("SELECT minpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxPrice(AHB_BLUE  , WorldDatabase.Query("SELECT maxpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinPrice(AHB_PURPLE, WorldDatabase.Query("SELECT minpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxPrice(AHB_PURPLE, WorldDatabase.Query("SELECT maxpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinPrice(AHB_ORANGE, WorldDatabase.Query("SELECT minpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxPrice(AHB_ORANGE, WorldDatabase.Query("SELECT maxpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinPrice(AHB_YELLOW, WorldDatabase.Query("SELECT minpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxPrice(AHB_YELLOW, WorldDatabase.Query("SELECT maxpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
 
     // 
     // Load min and max bid prices
     // 
 
-    SetMinBidPrice(AHB_GREY  , WorldDatabase.Query("SELECT minbidpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxBidPrice(AHB_GREY  , WorldDatabase.Query("SELECT maxbidpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinBidPrice(AHB_WHITE , WorldDatabase.Query("SELECT minbidpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxBidPrice(AHB_WHITE , WorldDatabase.Query("SELECT maxbidpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinBidPrice(AHB_GREEN , WorldDatabase.Query("SELECT minbidpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxBidPrice(AHB_GREEN , WorldDatabase.Query("SELECT maxbidpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinBidPrice(AHB_BLUE  , WorldDatabase.Query("SELECT minbidpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxBidPrice(AHB_BLUE  , WorldDatabase.Query("SELECT maxbidpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinBidPrice(AHB_PURPLE, WorldDatabase.Query("SELECT minbidpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxBidPrice(AHB_PURPLE, WorldDatabase.Query("SELECT maxbidpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinBidPrice(AHB_ORANGE, WorldDatabase.Query("SELECT minbidpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxBidPrice(AHB_ORANGE, WorldDatabase.Query("SELECT maxbidpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMinBidPrice(AHB_YELLOW, WorldDatabase.Query("SELECT minbidpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxBidPrice(AHB_YELLOW, WorldDatabase.Query("SELECT maxbidpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
+    SetMinBidPrice(AHB_GREY  , WorldDatabase.Query("SELECT minbidpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxBidPrice(AHB_GREY  , WorldDatabase.Query("SELECT maxbidpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinBidPrice(AHB_WHITE , WorldDatabase.Query("SELECT minbidpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxBidPrice(AHB_WHITE , WorldDatabase.Query("SELECT maxbidpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinBidPrice(AHB_GREEN , WorldDatabase.Query("SELECT minbidpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxBidPrice(AHB_GREEN , WorldDatabase.Query("SELECT maxbidpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinBidPrice(AHB_BLUE  , WorldDatabase.Query("SELECT minbidpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxBidPrice(AHB_BLUE  , WorldDatabase.Query("SELECT maxbidpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinBidPrice(AHB_PURPLE, WorldDatabase.Query("SELECT minbidpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxBidPrice(AHB_PURPLE, WorldDatabase.Query("SELECT maxbidpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinBidPrice(AHB_ORANGE, WorldDatabase.Query("SELECT minbidpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxBidPrice(AHB_ORANGE, WorldDatabase.Query("SELECT maxbidpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMinBidPrice(AHB_YELLOW, WorldDatabase.Query("SELECT minbidpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxBidPrice(AHB_YELLOW, WorldDatabase.Query("SELECT maxbidpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
 
     // 
     // Load max stacks
     // 
 
-    SetMaxStack(AHB_GREY  , WorldDatabase.Query("SELECT maxstackgrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxStack(AHB_WHITE , WorldDatabase.Query("SELECT maxstackwhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxStack(AHB_GREEN , WorldDatabase.Query("SELECT maxstackgreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxStack(AHB_BLUE  , WorldDatabase.Query("SELECT maxstackblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxStack(AHB_PURPLE, WorldDatabase.Query("SELECT maxstackpurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxStack(AHB_ORANGE, WorldDatabase.Query("SELECT maxstackorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetMaxStack(AHB_YELLOW, WorldDatabase.Query("SELECT maxstackyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
+    SetMaxStack(AHB_GREY  , WorldDatabase.Query("SELECT maxstackgrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxStack(AHB_WHITE , WorldDatabase.Query("SELECT maxstackwhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxStack(AHB_GREEN , WorldDatabase.Query("SELECT maxstackgreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxStack(AHB_BLUE  , WorldDatabase.Query("SELECT maxstackblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxStack(AHB_PURPLE, WorldDatabase.Query("SELECT maxstackpurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxStack(AHB_ORANGE, WorldDatabase.Query("SELECT maxstackorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetMaxStack(AHB_YELLOW, WorldDatabase.Query("SELECT maxstackyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
 
     if (DebugOutConfig)
     {
@@ -2427,25 +2427,25 @@ void AHBConfig::InitializeFromSql(std::set<uint32> botsIds)
     // Auctions buyer
     //
 
-    SetBuyerPrice(AHB_GREY  , WorldDatabase.Query("SELECT buyerpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetBuyerPrice(AHB_WHITE , WorldDatabase.Query("SELECT buyerpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetBuyerPrice(AHB_GREEN , WorldDatabase.Query("SELECT buyerpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetBuyerPrice(AHB_BLUE  , WorldDatabase.Query("SELECT buyerpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetBuyerPrice(AHB_PURPLE, WorldDatabase.Query("SELECT buyerpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetBuyerPrice(AHB_ORANGE, WorldDatabase.Query("SELECT buyerpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
-    SetBuyerPrice(AHB_YELLOW, WorldDatabase.Query("SELECT buyerpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
+    SetBuyerPrice(AHB_GREY  , WorldDatabase.Query("SELECT buyerpricegrey   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetBuyerPrice(AHB_WHITE , WorldDatabase.Query("SELECT buyerpricewhite  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetBuyerPrice(AHB_GREEN , WorldDatabase.Query("SELECT buyerpricegreen  FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetBuyerPrice(AHB_BLUE  , WorldDatabase.Query("SELECT buyerpriceblue   FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetBuyerPrice(AHB_PURPLE, WorldDatabase.Query("SELECT buyerpricepurple FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetBuyerPrice(AHB_ORANGE, WorldDatabase.Query("SELECT buyerpriceorange FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
+    SetBuyerPrice(AHB_YELLOW, WorldDatabase.Query("SELECT buyerpriceyellow FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
 
     //
     // Load bidding interval
     //
 
-    SetBiddingInterval(WorldDatabase.Query("SELECT buyerbiddinginterval FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
+    SetBiddingInterval(WorldDatabase.Query("SELECT buyerbiddinginterval FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
 
     //
     // Load bids per interval
     //
 
-    SetBidsPerInterval(WorldDatabase.Query("SELECT buyerbidsperinterval FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0]->Get<uint32>());
+    SetBidsPerInterval(WorldDatabase.Query("SELECT buyerbidsperinterval FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID())->Fetch()[0].Get<uint32>());
 
     if (DebugOutConfig)
     {
