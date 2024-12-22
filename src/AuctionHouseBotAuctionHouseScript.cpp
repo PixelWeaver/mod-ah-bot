@@ -84,7 +84,7 @@ void AHBot_AuctionHouseScript::OnAuctionAdd(AuctionHouseObject* /*ah*/, AuctionE
     // The the configuration for the auction house
     // 
 
-    AuctionHouseEntry const* ahEntry = sAuctionHouseStore.LookupEntry((uint32)auction->GetHouseId());
+    AuctionHouseEntry const* ahEntry = sAuctionMgr->GetAuctionHouseEntryFromHouse(auction->GetHouseId());
     AHBConfig*               config  = gNeutralConfig;
 
     if (ahEntry)
@@ -147,7 +147,7 @@ void AHBot_AuctionHouseScript::OnAuctionRemove(AuctionHouseObject* /*ah*/, Aucti
     // Get the configuration for the auction house
     // 
 
-    AuctionHouseEntry const* ahEntry = sAuctionHouseStore.LookupEntry(auction->GetHouseId());
+    AuctionHouseEntry const* ahEntry = sAuctionMgr->GetAuctionHouseEntryFromHouse(auction->GetHouseId());
     AHBConfig*               config  = gNeutralConfig;
 
     if (ahEntry)
@@ -210,7 +210,7 @@ void AHBot_AuctionHouseScript::OnAuctionSuccessful(AuctionHouseObject* /*ah*/, A
     // Get the configuration for the auction house
     // 
 
-    AuctionHouseEntry const* ahEntry = sAuctionHouseStore.LookupEntry(auction->GetHouseId());
+    AuctionHouseEntry const* ahEntry = sAuctionMgr->GetAuctionHouseEntryFromHouse(auction->GetHouseId());
     AHBConfig*               config  = gNeutralConfig;
 
     if (ahEntry)
@@ -239,7 +239,7 @@ void AHBot_AuctionHouseScript::OnAuctionExpire(AuctionHouseObject* /*ah*/, Aucti
     // Get the configuration for the auction house
     // 
 
-    AuctionHouseEntry const* ahEntry = sAuctionHouseStore.LookupEntry(auction->GetHouseId());
+    AuctionHouseEntry const* ahEntry = sAuctionMgr->GetAuctionHouseEntryFromHouse(auction->GetHouseId());
     AHBConfig*               config  = gNeutralConfig;
 
     if (ahEntry)
