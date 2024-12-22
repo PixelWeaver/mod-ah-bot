@@ -84,7 +84,7 @@ void AHBot_AuctionHouseScript::OnAuctionAdd(AuctionHouseObject* /*ah*/, AuctionE
     // The the configuration for the auction house
     // 
 
-    AuctionHouseEntry const* ahEntry = sAuctionHouseStore.LookupEntry(auction->GetHouseId());
+    AuctionHouseEntry const* ahEntry = sAuctionHouseStore.LookupEntry((uint32)auction->GetHouseId());
     AHBConfig*               config  = gNeutralConfig;
 
     if (ahEntry)
