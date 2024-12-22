@@ -2148,7 +2148,7 @@ void AHBConfig::InitializeFromSql(std::set<uint32> botsIds)
     //                   30               31               32                33                34                35                36               37               38                 39                 40                 41                 42                 43
                         "minbidpricegrey, maxbidpricegrey, minbidpricewhite, maxbidpricewhite, minbidpricegreen, maxbidpricegreen, minbidpriceblue, maxbidpriceblue, minbidpricepurple, maxbidpricepurple, minbidpriceorange, maxbidpriceorange, minbidpriceyellow, maxbidpriceyellow, "
     //                   44            45             46             47            48              49              50
-                        "maxstackgrey, maxstackwhite, maxstackgreen, maxstackblue, maxstackpurple, maxstackorange, maxstackyellow"
+                        "maxstackgrey, maxstackwhite, maxstackgreen, maxstackblue, maxstackpurple, maxstackorange, maxstackyellow "
                         "FROM mod_auctionhousebot WHERE auctionhouse = {}", GetAHID());
 
     Field* fields = result->Fetch();
