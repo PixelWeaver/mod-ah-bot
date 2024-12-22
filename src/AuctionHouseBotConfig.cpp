@@ -37,7 +37,7 @@ AHBConfig::AHBConfig()
     Reset();
 }
 
-AHBConfig::AHBConfig(uint32 ahid)
+AHBConfig::AHBConfig(uint8 ahid)
 {
     Reset();
 
@@ -63,7 +63,7 @@ AHBConfig::AHBConfig(uint32 ahid)
     }
 }
 
-AHBConfig::AHBConfig(uint32 ahid, AHBConfig* conf)
+AHBConfig::AHBConfig(uint8 ahid, AHBConfig* conf)
 {
     Reset();
 
@@ -601,7 +601,7 @@ void AHBConfig::Reset()
     itemsPrice.clear();
 }
 
-uint32 AHBConfig::GetAHID()
+uint8 AHBConfig::GetAHID()
 {
     return AHID;
 }

@@ -29,7 +29,7 @@
 class AHBConfig
 {
 private:
-    uint32 AHID;                     // Id
+    uint8 AHID;                     // Id
     uint32 AHFID;                    // Faction id
 
     uint32 minItems;
@@ -298,8 +298,8 @@ public:
     // Constructors/destructors
     //
 
-    AHBConfig(uint32 ahid, AHBConfig* conf);
-    AHBConfig(uint32 ahid);
+    AHBConfig(uint8 ahid, AHBConfig* conf);
+    AHBConfig(uint8 ahid);
     AHBConfig();
     ~AHBConfig();
 

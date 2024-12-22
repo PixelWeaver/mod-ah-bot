@@ -68,7 +68,7 @@ void AHBot_AuctionHouseScript::OnBeforeAuctionHouseMgrSendAuctionOutbiddedMail(
             std::advance(it, randBot);
 
             oldBidder->GetSession()->SendAuctionBidderNotification(
-                auction->GetHouseId(),
+                (uint32)auction->GetHouseId(),
                 auction->Id,
                 ObjectGuid::Create<HighGuid::Player>(*it),
                 newPrice,
