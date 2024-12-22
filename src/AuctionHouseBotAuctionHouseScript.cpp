@@ -89,11 +89,11 @@ void AHBot_AuctionHouseScript::OnAuctionAdd(AuctionHouseObject* /*ah*/, AuctionE
 
     if (ahEntry)
     {
-        if ((uint8)ahEntry->houseId == AuctionHouseId::Alliance)
+        if (AuctionHouseId(ahEntry->houseId) == AuctionHouseId::Alliance)
         {
             config = gAllianceConfig;
         }
-        else if ((uint8)ahEntry->houseId == AuctionHouseId::Horde)
+        else if (AuctionHouseId(ahEntry->houseId) == AuctionHouseId::Horde)
         {
             config = gHordeConfig;
         }
@@ -152,11 +152,11 @@ void AHBot_AuctionHouseScript::OnAuctionRemove(AuctionHouseObject* /*ah*/, Aucti
 
     if (ahEntry)
     {
-        if ((uint8)ahEntry->houseId == AuctionHouseId::Alliance)
+        if (AuctionHouseId(ahEntry->houseId) == AuctionHouseId::Alliance)
         {
             config = gAllianceConfig;
         }
-        else if ((uint8)ahEntry->houseId == AuctionHouseId::Horde)
+        else if (AuctionHouseId(ahEntry->houseId) == AuctionHouseId::Horde)
         {
             config = gHordeConfig;
         }
@@ -215,11 +215,11 @@ void AHBot_AuctionHouseScript::OnAuctionSuccessful(AuctionHouseObject* /*ah*/, A
 
     if (ahEntry)
     {
-        if ((uint8)ahEntry->houseId == AuctionHouseId::Alliance)
+        if (AuctionHouseId(ahEntry->houseId) == AuctionHouseId::Alliance)
         {
             config = gAllianceConfig;
         }
-        else if ((uint8)ahEntry->houseId == AuctionHouseId::Horde)
+        else if (AuctionHouseId(ahEntry->houseId) == AuctionHouseId::Horde)
         {
             config = gHordeConfig;
         }
@@ -244,11 +244,11 @@ void AHBot_AuctionHouseScript::OnAuctionExpire(AuctionHouseObject* /*ah*/, Aucti
 
     if (ahEntry)
     {
-        if ((uint8)ahEntry->houseId == AuctionHouseId::Alliance)
+        if (AuctionHouseId(ahEntry->houseId) == AuctionHouseId::Alliance)
         {
             config = gAllianceConfig;
         }
-        else if ((uint8)ahEntry->houseId == AuctionHouseId::Horde)
+        else if (AuctionHouseId(ahEntry->houseId) == AuctionHouseId::Horde)
         {
             config = gHordeConfig;
         }
