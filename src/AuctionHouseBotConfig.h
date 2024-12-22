@@ -312,7 +312,7 @@ public:
     void   LoadAuctionPrices();
     void   Reset();
 
-    uint32 GetAHID();
+    uint8 GetAHID();
     uint32 GetAHFID();
 
     void   SetMinItems       (uint32 value);

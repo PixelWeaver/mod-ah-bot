@@ -813,7 +813,7 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
 
         AuctionEntry *auctionEntry = new AuctionEntry();
         auctionEntry->Id = sObjectMgr->GenerateAuctionID();
-        auctionEntry->houseId = config->GetAHID();
+        auctionEntry->houseId = AuctionHouseId(config->GetAHID());
         auctionEntry->item_guid = item->GetGUID();
         auctionEntry->item_template = item->GetEntry();
         auctionEntry->itemCount = item->GetCount();
