@@ -29,7 +29,7 @@
 class AHBConfig
 {
 private:
-    uint32 AHID;                     // Id
+    uint8 AHID;                     // Id
     uint32 AHFID;                    // Faction id
 
     uint32 minItems;
@@ -155,6 +155,7 @@ private:
     void   InitializeFromSql(std::set<uint32> botsIds);
 
     std::set<uint32> getCommaSeparatedIntegers(std::string text);
+    void insertItemInRightBin(ItemTemplate item);
 
 public:
     //
@@ -289,23 +290,29 @@ public:
     std::set<uint32> YellowItemsBin;
 
     //
+    //  Item prices
+    //
+    std::map<uint32, uint32> ItemPrices;
+
+    //
     // Constructors/destructors
     //
 
-    AHBConfig(uint32 ahid, AHBConfig* conf);
-    AHBConfig(uint32 ahid);
+    AHBConfig(uint8 ahid, AHBConfig* conf);
+    AHBConfig(uint8 ahid);
     AHBConfig();
     ~AHBConfig();
 
     //
-    // Ruotines
+    // Routines
     //
 
     void   Initialize(std::set<uint32> botsIds);
     void   InitializeBins();
+    void   LoadAuctionPrices();
     void   Reset();
 
-    uint32 GetAHID();
+    uint8 GetAHID();
     uint32 GetAHFID();
 
     void   SetMinItems       (uint32 value);
