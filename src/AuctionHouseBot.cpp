@@ -530,7 +530,7 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
     // Retrieve the auction house situation
     //
 
-    AuctionHouseEntry const *ahEntry = sAuctionMgr->GetAuctionHouseEntry(config->GetAHFID());
+    AuctionHouseEntry const *ahEntry = sAuctionMgr->GetAuctionHouseEntryFromFactionTemplate(config->GetAHFID());
 
     if (!ahEntry)
     {
