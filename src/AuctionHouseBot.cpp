@@ -461,6 +461,14 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
             sAuctionMgr->SendAuctionWonMail(auction, trans);
 
             //
+            // Trace
+            //
+            if (config->TraceBuyer)
+            {
+                LOG_INFO("module", "AHBot [{}]: Bought , id={}, ah={}, item={}, start={}, current={}, buyout={}", _id, prototype->ItemId, auction->GetHouseId(), auction->item_template, auction->startbid, currentPrice, auction->buyout);
+            }
+
+            //
             // Delete the auction.
             //
 
@@ -470,11 +478,6 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
             auctionHouse->RemoveAuction(auction);
 
             CharacterDatabase.CommitTransaction(trans);
-
-            if (config->TraceBuyer)
-            {
-                LOG_INFO("module", "AHBot [{}]: Bought , id={}, ah={}, item={}, start={}, current={}, buyout={}", _id, prototype->ItemId, auction->GetHouseId(), auction->item_template, auction->startbid, currentPrice, auction->buyout);
-            }
         }
     }
 }
