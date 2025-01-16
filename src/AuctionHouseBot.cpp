@@ -178,7 +178,6 @@ uint32 AuctionHouseBot::getAuctionCount(AHBConfig *config, AuctionHouseObject *a
         if (guid == Aentry->owner)
         {
             count++;
-            break;
         }
     }
 
@@ -457,8 +456,8 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
             // Send mails to buyer & seller.
             //
 
+            sAuctionMgr->SendAuctionSalePendingMail(auction, trans);
             sAuctionMgr->SendAuctionSuccessfulMail(auction, trans);
-            sAuctionMgr->SendAuctionWonMail(auction, trans);
 
             //
             // Trace
