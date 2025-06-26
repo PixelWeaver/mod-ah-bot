@@ -1059,7 +1059,7 @@ void AuctionHouseBot::Commands(AHBotCommand command, uint32 ahMapID, uint32 col,
 
         break;
     }
-    case AHBotCommand::ahexpire:
+    case AHBotCommand::expire:
     {
         AuctionHouseObject *auctionHouse = sAuctionMgr->GetAuctionsMap(config->GetAHFID());
 
