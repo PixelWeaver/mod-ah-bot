@@ -2730,7 +2730,7 @@ void AHBConfig::InitializeBins()
             {
                 if (DebugOutFilters)
                 {
-                    LOG_ERROR("module", "AuctionHouseBot: Item {} disabled (PTR/Beta/Unused Item)", itr->second.ItemId);
+                    LOG_INFO("module", "AuctionHouseBot: Item {} disabled (PTR/Beta/Unused Item)", itr->second.ItemId);
                 }
 
                 continue;
@@ -2742,7 +2742,7 @@ void AHBConfig::InitializeBins()
             {
                 if (DebugOutFilters)
                 {
-                    LOG_ERROR("module", "AuctionHouseBot: Item {} disabled (not in the whitelist)", itr->second.ItemId);
+                    LOG_INFO("module", "AuctionHouseBot: Item {} disabled (not in the whitelist)", itr->second.ItemId);
                 }
 
                 continue;
