@@ -209,7 +209,7 @@ public:
             handler->PSendSysMessage("buyer - enable/disable buyer");
             handler->PSendSysMessage("seller - enable/disabler seller");
             handler->PSendSysMessage("usemarketprice - enable/disabler selling at market price");
-            handler->PSendSysMessage("ahexpire - remove all bot auctions");
+            handler->PSendSysMessage("expire - remove all bot auctions");
             handler->PSendSysMessage("minitems - set min auctions");
             handler->PSendSysMessage("maxitems - set max auctions");
             handler->PSendSysMessage("percentages - set selling percentages");
@@ -224,17 +224,17 @@ public:
 
             return true;
         }
-        else if (strncmp(opt, "ahexpire", l) == 0)
+        else if (strncmp(opt, "expire", l) == 0)
         {
             if (!ahMapIdStr)
             {
-                handler->PSendSysMessage("Syntax is: ahbotoptions ahexpire $ahMapID (2, 6 or 7)");
+                handler->PSendSysMessage("Syntax is: ahbotoptions expire $ahMapID (2, 6 or 7)");
                 return false;
             }
 
             for (AuctionHouseBot* bot: gBots)
             {
-                bot->Commands(AHBotCommand::ahexpire, ahMapID, 0, NULL);
+                bot->Commands(AHBotCommand::expire, ahMapID, 0, NULL);
             }
         }
         else if (strncmp(opt, "minitems", l) == 0)

@@ -178,7 +178,6 @@ uint32 AuctionHouseBot::getAuctionCount(AHBConfig *config, AuctionHouseObject *a
         if (guid == Aentry->owner)
         {
             count++;
-            break;
         }
     }
 
@@ -305,8 +304,15 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
         // Determine maximum bid and skip auctions with too high a currentPrice.
         //
 
-        double basePrice = config->UseBuyPriceForBuyer ? prototype->BuyPrice : prototype->SellPrice;
-        double maximumBid = basePrice * pItem->GetCount() * config->GetBuyerPrice(prototype->Quality);
+        double basePrice = 0;
+        double maximumBid = 0;
+        if (config->ItemPrices.contains(prototype->ItemId)) {
+            basePrice = config->ItemPrices.at(prototype->ItemId);
+            maximumBid = basePrice * pItem->GetCount(); // TODO: Improve this
+        } else {
+            basePrice = config->UseBuyPriceForBuyer ? prototype->BuyPrice : prototype->SellPrice;
+            maximumBid = basePrice * pItem->GetCount() * config->GetBuyerPrice(prototype->Quality);
+        }
 
         if (config->DebugOutBuyer)  
         {
@@ -450,8 +456,16 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
             // Send mails to buyer & seller.
             //
 
+            sAuctionMgr->SendAuctionSalePendingMail(auction, trans);
             sAuctionMgr->SendAuctionSuccessfulMail(auction, trans);
-            sAuctionMgr->SendAuctionWonMail(auction, trans);
+
+            //
+            // Trace
+            //
+            if (config->TraceBuyer)
+            {
+                LOG_INFO("module", "AHBot [{}]: Bought , id={}, ah={}, item={}, start={}, current={}, buyout={}", _id, prototype->ItemId, auction->GetHouseId(), auction->item_template, auction->startbid, currentPrice, auction->buyout);
+            }
 
             //
             // Delete the auction.
@@ -463,11 +477,6 @@ void AuctionHouseBot::Buy(Player *AHBplayer, AHBConfig *config, WorldSession *se
             auctionHouse->RemoveAuction(auction);
 
             CharacterDatabase.CommitTransaction(trans);
-
-            if (config->TraceBuyer)
-            {
-                LOG_INFO("module", "AHBot [{}]: Bought , id={}, ah={}, item={}, start={}, current={}, buyout={}", _id, prototype->ItemId, auction->GetHouseId(), auction->item_template, auction->startbid, currentPrice, auction->buyout);
-            }
         }
     }
 }
@@ -523,7 +532,7 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
     // Retrieve the auction house situation
     //
 
-    AuctionHouseEntry const *ahEntry = sAuctionMgr->GetAuctionHouseEntry(config->GetAHFID());
+    AuctionHouseEntry const *ahEntry = sAuctionMgr->GetAuctionHouseEntryFromFactionTemplate(config->GetAHFID());
 
     if (!ahEntry)
     {
@@ -740,29 +749,32 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
         uint64 buyoutPrice = 0;
         uint64 bidPrice = 0;
         uint32 stackCount = 1;
-
-        if (config->SellAtMarketPrice)
-        {
-            buyoutPrice = config->GetItemPrice(itemID);
-        }
-
-        if (buyoutPrice == 0)
-        {
-            if (config->UseBuyPriceForSeller)
+        
+        if (config->ItemPrices.contains(itemID)) {
+            buyoutPrice = config->ItemPrices.at(itemID);
+            buyoutPrice = buyoutPrice * urand(85, 150) / 100; // TODO: Improve this
+            bidPrice = buyoutPrice * urand(60, 99) / 100; // TODO: Improve this
+        } else {
+            if (config->SellAtMarketPrice)
             {
-                buyoutPrice = prototype->BuyPrice;
+                buyoutPrice = config->GetItemPrice(itemID);
             }
-            else
+
+            if (buyoutPrice == 0)
             {
-                buyoutPrice = prototype->SellPrice;
+                if (config->UseBuyPriceForSeller)
+                {
+                    buyoutPrice = prototype->BuyPrice;
+                }
+                else
+                {
+                    buyoutPrice = prototype->SellPrice;
+                }
             }
-        }
 
-        buyoutPrice = buyoutPrice * urand(config->GetMinPrice(prototype->Quality), config->GetMaxPrice(prototype->Quality));
-        buyoutPrice = buyoutPrice / 100;
-
-        bidPrice = buyoutPrice * urand(config->GetMinBidPrice(prototype->Quality), config->GetMaxBidPrice(prototype->Quality));
-        bidPrice = bidPrice / 100;
+            buyoutPrice = buyoutPrice * urand(config->GetMinPrice(prototype->Quality), config->GetMaxPrice(prototype->Quality)) / 100;
+            bidPrice = buyoutPrice * urand(config->GetMinBidPrice(prototype->Quality), config->GetMaxBidPrice(prototype->Quality)) / 100;
+        }        
 
         //
         // Determine the stack size
@@ -803,7 +815,7 @@ void AuctionHouseBot::Sell(Player *AHBplayer, AHBConfig *config)
 
         AuctionEntry *auctionEntry = new AuctionEntry();
         auctionEntry->Id = sObjectMgr->GenerateAuctionID();
-        auctionEntry->houseId = config->GetAHID();
+        auctionEntry->houseId = AuctionHouseId(config->GetAHID());
         auctionEntry->item_guid = item->GetGUID();
         auctionEntry->item_template = item->GetEntry();
         auctionEntry->itemCount = item->GetCount();
@@ -1047,7 +1059,7 @@ void AuctionHouseBot::Commands(AHBotCommand command, uint32 ahMapID, uint32 col,
 
         break;
     }
-    case AHBotCommand::ahexpire:
+    case AHBotCommand::expire:
     {
         AuctionHouseObject *auctionHouse = sAuctionMgr->GetAuctionsMap(config->GetAHFID());
 

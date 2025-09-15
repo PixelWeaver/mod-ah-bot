@@ -80,8 +80,7 @@ enum class AHBotCommand : uint32
     buyer,
     seller,
     useMarketPrice,
-
-    ahexpire,
+    expire,
     minitems,
     maxitems,
     percentages,
